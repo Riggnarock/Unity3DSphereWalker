@@ -7,7 +7,7 @@ public class rotateSphere : MonoBehaviour {
 	private Vector3 rotation = Vector3.zero;
 	private Vector3 lastMousePosition = Vector3.zero;
 
-	public int speed = 10;
+	public int speed = 4;
 	private bool decelerate = false;
 
 	// Use this for initialization
@@ -27,8 +27,6 @@ public class rotateSphere : MonoBehaviour {
 				rotation.y = (lastMousePosition.x - Input.mousePosition.x) * Time.deltaTime * speed;
 				lastMousePosition = Input.mousePosition;
 			} else if (Input.GetKeyUp ("mouse 0")) {
-				//rotation = Vector3.zero;
-				print (lastMousePosition - Input.mousePosition);
 				rotation.x = -(lastMousePosition.y - Input.mousePosition.y) * Time.deltaTime * speed;
 				rotation.y = (lastMousePosition.x - Input.mousePosition.x) * Time.deltaTime * speed;
 				if (!decelerate)
@@ -43,7 +41,10 @@ public class rotateSphere : MonoBehaviour {
 				rotation.y = (lastMousePosition.x- touch.position.x) * Time.deltaTime * speed;
 				lastMousePosition = touch.position;
 			} else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) {
-				rotation = Vector3.zero;
+				rotation.x = -(lastMousePosition.y - touch.position.y) * Time.deltaTime * speed;
+				rotation.y = (lastMousePosition.x - touch.position.x) * Time.deltaTime * speed;
+				if (!decelerate)
+					decelerate = true;
 			}
 		}
 		if (decelerate) {
